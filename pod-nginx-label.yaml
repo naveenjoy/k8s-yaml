@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Pod
+metadata:       # Describes the Pod and its labels
+  name: nginx
+  labels:     # Optional.Labels are arbitrary key:value pairs.Primary use is to group and target sets of pods.
+    app: my-nginx  # Tag your pods with *identifying attributes* that are *meaningful* and *relevant* to your users
+spec:
+  containers:
+  - name: nginx
+    image: nginx:1.13.8
+    ports:
+    - containerPort: 80
+

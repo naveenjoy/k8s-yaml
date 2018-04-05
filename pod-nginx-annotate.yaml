@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+  labels:
+    app: my-nginx
+  annotations:   # Annotations,like labels,are key/value maps.They are used by automation tooling,client libs & NOC
+    build-url: http://my-build-url.com/jobs/10  # A URL to view the automated build that generated this K8s resource
+    supported-by: 1-888-222-1803  # Phone number to reach those responsible for supporting this Pod
+spec:
+  containers:
+  - name: nginx
+    image: nginx:1.13.8
+    ports:
+    - containerPort: 80
+
