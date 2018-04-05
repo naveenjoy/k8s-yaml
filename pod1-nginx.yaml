@@ -11,3 +11,4 @@ spec:           # Specification of Pod's contents - e.g. A list of containers it
     ports:
     - containerPort: 80  # The port used by the container. This port is accessible from all cluster nodes. 
                          # In k8s there is need to publish ports as in Docker (i.e. you can curl this port from any node)
+                         # Kubernetes assigns an IP address to each PoD and this port is exposed on that IP
