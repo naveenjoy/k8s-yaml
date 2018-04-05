@@ -1,11 +1,13 @@
 apiVersion: v1  # Currently v1
 kind: Pod       # Kind of the API resource (Pod, Deployment etc.)
 metadata:       # Describes the Pod and its labels
-  name: nginx   # Name of the Pod. It must be unique within the k8s cluster
+  name: nginx   # Name of this Pod. It must be unique within the namespace
+  labels:       # Optional. Labels are arbitrary key:value pairs. Used for grouping and targeting sets of pods.
+    app: my-nginx 
 spec:           # Specification of Pod's contents - e.g. A list of containers it will run and Volumes
   containers:
-  - name: nginx          #  A nickname for the container in this Pod. 
+  - name: nginx          #  A nickname for the container in this Pod. Must be unique with the Pod
     image: nginx:1.7.9   #  Name of the Docker image that Kubernetes will pull from a registry (default is Docker Hub)
     ports:
     - containerPort: 80  # The port used by the container. This port is accessible from all cluster nodes. 
-                         # In k8s there is need to publish ports as in Docker (You can curl this port from any node)
+                         # In k8s there is need to publish ports as in Docker (i.e. you can curl this port from any node)
