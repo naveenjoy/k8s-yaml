@@ -5,8 +5,7 @@ metadata:
   labels:
     app: my-nginx
   annotations:
-    build-url: http://my-build-url.com/jobs/10
-    supported-by: 1-888-222-1803
+    description: Nginx pod with emptyDir volume type
 spec:
   volumes:            # Define all the volumes available to your containers
     - name: www-data  # Name the volume

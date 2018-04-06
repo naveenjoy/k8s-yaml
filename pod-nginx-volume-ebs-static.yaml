@@ -5,14 +5,13 @@ metadata:
   labels:
     app: my-nginx
   annotations:
-    build-url: http://my-build-url.com/jobs/10
-    supported-by: 1-888-222-1803
+    description: Nginx container with an AWS EBS Persistent Volume
 spec:
   volumes:            # Define all the volumes available to your containers
     - name: www-data-ebs       # Name of the AWS EBS Volume 
       awsElasticBlockStore:    # The AWS EBS volume must already exist in the same AWS Region and AZ as the k8s cluster
-        volumeID: <volume-id>  # EBS volume ID
-        fsType: ext4           # The filesystem type to mount.
+        volumeID: <volume-id>  # The volume ID refers to an existing AWS volume
+        fsType: ext4           # The filesystem type to mount
   containers:
     - name: nginx
       image: nginx:1.13.8

@@ -1,0 +1,13 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: standard-aws
+  annotations:
+    storageclass.kubernetes.io/is-default-class: "true"   # Make this the default storage class
+  labels:
+    aws-storage: true
+provisioner: kubernetes.io/aws-ebs
+# A general purpose SSD backed Volume Type in AWS
+# Refer: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSVolumeTypes.html
+parameters:
+  type: gp2
