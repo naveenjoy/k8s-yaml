@@ -17,7 +17,7 @@ spec:
         memory: "64Mi"  # Memory resources are measured in Bytes. 64Mi == 64 MB == 2 ** 26 Bytes
       limits:      # Set a Max limit on CPU and Memory that the container cannot exceed
         cpu: "1"   # k8s will configure the Linux kernel to ensure that this limit cannot be exceeded by the container
-        memory: "512Mi"
+        memory: "512Mi"  # Pod's Quality of Service Class is Burstable
     ports:
     - containerPort: 80
 

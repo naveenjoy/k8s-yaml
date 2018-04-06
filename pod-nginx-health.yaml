@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+  labels:
+    app: my-nginx
+  annotations:
+    build-url: http://my-build-url.com/jobs/10
+    supported-by: 1-888-222-1803
+spec:
+  containers:
+  - name: nginx
+    image: nginx:1.13.8
+    livenessProbe:  # Checks if the nginx application is running properly. If not Kubelet will kill and restart it
+      httpGet: # Kubelet will perform a HTTP GET to the specified path and port. Success codes are 200-399 (inclusive)
+        path: /
+        port: 80
+      initialDelaySeconds: 5  # Tells the kubelet that it should wait 5 sec before performing the first probe
+      timeoutSeconds: 2    # probe should receive a response within 1 sec
+      periodSeconds: 5     # perform a liveness probe every 5 sec
+      failureThreshold: 3  # If more than 3 probes fail, Kubelet will kill and restart the container 
+    resources:
+      requests:
+        cpu: "500m"
+        memory: "64Mi"
+      limits:
+        cpu: "1"
+        memory: "512Mi"
+    ports:
+    - containerPort: 80
+
