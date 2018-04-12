@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: wordpress
+spec:
+  selector:
+    app: wordpress
+    tier: frontend
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: LoadBalancer
+  loadBalancerSourceRanges:
+    - 10.0.0.0/8   # Cluster Internal IPs
+    - 1.1.1.1/32   # Put your host's IP here

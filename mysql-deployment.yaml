@@ -1,0 +1,37 @@
+apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
+kind: Deployment
+metadata:
+  name: mysql
+spec:
+  selector:
+    matchLabels:
+      app: mysql
+      tier: backend
+  strategy:
+    type: Recreate   # roll-out new versions using a Recreate strategy
+  template:
+    metadata:
+      labels:
+        app: mysql
+        tier: backend
+    spec:
+      containers:
+        - image: mysql:5.6
+          name: mysql
+          env:
+            # Access the secret using a secretvolume
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-pass
+                  key: password     # The MYSQL_ROOT_PASSWORD env variable sets the DB password from the Secret Key
+          ports:
+            - containerPort: 3306
+              name: mysql
+          volumeMounts:
+            - name: mysql-persistent-storage
+              mountPath: /var/lib/mysql
+      volumes:
+        - name: mysql-persistent-storage
+          persistentVolumeClaim:
+            claimName: aws-claim

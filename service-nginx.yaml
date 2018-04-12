@@ -1,0 +1,14 @@
+# This specification will create a new Service object named “my-nginx-service” which targets TCP port 80
+# on any Pod with the "tier=frontend" label
+kind: Service
+apiVersion: v1
+metadata:
+  name: my-nginx-service
+spec:
+  selector:
+    tier: frontend  # Pod's label
+  ports:
+  - protocol: TCP
+    port: 80
+    # targetPort can be a string, referring to the name of a port in the backend Pods
+    targetPort: 80  # Port exposed by the pod.
