@@ -7,7 +7,7 @@ metadata:       # Describes the Pod and its labels
 spec:
   containers:
   - name: nginx
-    image: nginx:1.13.8
+    image: nginx:1.7.9
     ports:
     - containerPort: 80
 
