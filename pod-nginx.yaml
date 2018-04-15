@@ -4,9 +4,9 @@ metadata:       # Describes the Pod and its labels
   name: nginx   # Name of this Pod. A Pod's name must be unique within the namespace
 spec:           # Specification of Pod's contents - e.g. A list of containers it will run
   containers:            #  Start the container listing
-  - name: nginx          #  A nickname for the container in this Pod. Must be unique with this Pod
-    image: nginx:1.7.9   #  Name of the Docker image that Kubernetes will pull from a registry (default is Docker Hub)
-    ports:
-    - containerPort: 80  # The port used by the container. This port is accessible from all cluster nodes. 
-                         # In k8s there is need to publish ports as in Docker (i.e. you can curl this port from any node)
-                         # Kubernetes assigns an IP address to each PoD and this port is exposed on that IP
+    - name: nginx          #  A nickname for the container in this Pod. Must be unique with this Pod
+      image: nginx:1.7.9   #  Name of the Docker image that Kubernetes will pull from a registry (default is Docker Hub)
+      ports:
+        - containerPort: 80  # The port used by the container. This port is accessible from all cluster nodes. 
+                             # In Kubernetes, there is need to publish container ports like you do in Docker. 
+
