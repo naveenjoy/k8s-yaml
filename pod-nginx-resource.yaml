@@ -3,21 +3,22 @@ kind: Pod
 metadata:
   name: nginx
   labels:
+    tier: frontend
     app: my-nginx
   annotations:
-    build-url: http://my-build-url.com/jobs/10
-    supported-by: 1-888-222-1803
+    pod-url: http://mysite.com/nginx-pod
+    supported-by: 1-888-222-1800
 spec:
   containers:
-  - name: nginx
-    image: nginx:1.13.8
-    resources:   # You can specify how much CPU and memory (RAM) each container needs
-      requests:  # Requests specify the *minimum* amount of CPU and RAM and k8s will guarantee this to the container
-        cpu: "500m"  # CPU resources are measured in cpu units. One cpu, in k8s, equals 1 vCPU in AWS (0.5 vCPU == 500m)
-        memory: "64Mi"  # Memory resources are measured in Bytes. 64Mi == 64 MB == 2 ** 26 Bytes
-      limits:      # Set a Max limit on CPU and Memory that the container cannot exceed
-        cpu: "1"   # k8s will configure the Linux kernel to ensure that this limit cannot be exceeded by the container
-        memory: "512Mi"  # Pod's Quality of Service Class is Burstable
-    ports:
-    - containerPort: 80
+    - name: nginx
+      image: nginx:1.13.8
+      resources:   # You can specify how much CPU and memory (RAM) each container needs
+        requests:  # Requests specify the *minimum* amount of CPU and RAM and k8s will guarantee this to the container
+          cpu: "500m"  # CPU resources are measured in cpu units. One cpu, in k8s, equals 1 vCPU in AWS (0.5 vCPU == 500m)
+          memory: "64Mi"  # Memory resources are measured in Bytes. 64Mi == 64 MB == 2 ** 26 Bytes
+        limits:      # Set a Max limit on CPU and Memory that the container cannot exceed
+          cpu: "1"   # k8s will configure the Linux kernel to ensure that this limit cannot be exceeded by the container
+          memory: "512Mi"  # Pod's Quality of Service Class is Burstable
+      ports:
+        - containerPort: 80
 
