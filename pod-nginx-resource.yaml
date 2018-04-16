@@ -4,7 +4,7 @@ metadata:
   name: nginx
   labels:
     tier: frontend
-    app: my-nginx
+    app: nginx
   annotations:
     pod-url: http://mysite.com/nginx-pod
     supported-by: 1-888-222-1800
@@ -21,4 +21,3 @@ spec:
           memory: "512Mi"  # Pod's Quality of Service Class is Burstable
       ports:
         - containerPort: 80
-
