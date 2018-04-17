@@ -20,8 +20,8 @@ spec:
       image: nginx:1.13.8
       volumeMounts:         # Mount volumes within a container using volumeMounts
         - mountPath: /usr/share/nginx/html  # Mount path within the container
-        name: www-data                      # Name must match the volume name defined above in the Volumes section
-        readOnly: true                      # Volume are marked as readOnly if the container doesn't need to write to it 
+          name: www-data                    # Name must match the volume name defined above in the Volumes section
+          readOnly: true            # Volume are marked as readOnly if the container doesn't need to write to it 
       ports:
         - containerPort: 80
 
