@@ -3,7 +3,8 @@ kind: Pod
 metadata:
   name: nginx
   labels:
-    app: my-nginx
+    tier: frontend
+    app:  nginx
   annotations:
     description: Multiple containers in pod sharing a volume
 spec:
@@ -14,36 +15,22 @@ spec:
     - name: nginx                # First container in the Pod
       image: nginx:1.13.8
       volumeMounts:
-        - mountPath: /srv/www    # Mount path inside the container
-        name: www-data-share     # Name must match the volume name defined above in the Volumes section
-        readOnly: true           # The nginx container can only read data from this volume
-      livenessProbe:
-        httpGet:
-          path: /
-          port: 80
-        initialDelaySeconds: 5
-        timeoutSeconds: 2
-        periodSeconds: 5
-        failureThreshold: 3 
-      resources:
-        requests:
-          cpu: "500m"
-          memory: "64Mi"
-        limits:
-          cpu: "1"
-          memory: "512Mi"
+        - mountPath: /usr/share/nginx/html      # Mount path inside the container
+          name: www-data-share                  # Name must match the volume name defined above in the Volumes section
+          readOnly: true                        # The nginx container can only read data from this volume
       ports:
-      - containerPort: 80
-    - name: git-sync              # Second container in the Pod
+        - containerPort: 80
+    # Second Container - Syncs a Git Repo
+    - name: git-sync
       image: openweb/git-sync:0.0.1
       volumeMounts:
-        - mountPath: /srv/www    # Mount path within the second container
-        name: www-data-share     # The same volume is mounted by both containers
+        - mountPath: /usr/share/nginx/html    # Mount path within the second container (Same as the first)
+          name: www-data-share                # The same volume is mounted by both containers
       env:                       # You can define environment variables for the container using env (name & value)
         - name: GIT_SYNC_REPO    # GIT Repo to Sync 
-          value: https://github.com/naveenjoy/naveenjoy.github.io.git     # Serves a simple page
+          value: https://github.com/naveenjoy/naveenjoy.github.io.git     # Repo contains a simple html page
         - name: GIT_SYNC_DEST    # Destination is the shared volume
-          value: /srv/www
+          value: /usr/share/nginx/html 
         - name: GIT_SYNC_BRANCH
           value: master
         - name: GIT_SYNC_REV
