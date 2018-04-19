@@ -28,14 +28,14 @@ spec:
           name: www-data-share                # The same volume is mounted by both containers
       env:                       # You can define environment variables for the container using env (name & value)
         - name: GIT_SYNC_REPO    # GIT Repo to Sync 
-          value: https://github.com/naveenjoy/naveenjoy.github.io.git     # Repo contains a simple html page
+          value: "https://github.com/naveenjoy/naveenjoy.github.io.git"     # Repo contains a simple html page
         - name: GIT_SYNC_DEST    # Destination is the shared volume
-          value: /usr/share/nginx/html 
+          value: "/usr/share/nginx/html" 
         - name: GIT_SYNC_BRANCH
-          value: master
+          value: "master"
         - name: GIT_SYNC_REV
-          value: FETCH_HEAD
+          value: "FETCH_HEAD"
         - name: GIT_SYNC_WAIT
-          value: 10
+          value: "10"
 
 
