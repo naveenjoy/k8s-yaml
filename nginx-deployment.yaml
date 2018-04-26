@@ -2,7 +2,7 @@
 apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
 kind: Deployment    # Notice that the Deployment Spec is similar to the ReplicaSet spec (Deployment manages a ReplicSet)
 metadata:
-  name: nginx-deployment
+  name: nginx-deploy
 spec:
   selector:
     matchLabels:
@@ -12,7 +12,7 @@ spec:
     rollingUpdate:
       maxSurge: 1         # specifies the maximum number of Pods that can be created over the desired number of Pods
       maxUnavailable: 1   # maximum number of Pods that can be unavailable during the update process
-  replicas: 2 # tells deployment to run 2 pods matching the template - Used for scaling the number of Pods
+  replicas: 3 # tells deployment to run n replicas matching the template - Used for scaling the number of Pods
   template: # create pods using pod definition in this template
     metadata:
       # unlike pod-nginx.yaml, the name is not included in the meta data as a unique name is
@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
         - name: nginx
-          image: nginx:1.7.12       # You can update the image to rollout new versions of the software
+          image: nginx:1.7.9
           # Without this imagePullPolicy, Kubelet will skip pulling an image if it already exists
           imagePullPolicy: Always   # You can always force an image pull.
           ports:

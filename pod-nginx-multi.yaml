@@ -31,11 +31,11 @@ spec:
           value: "https://github.com/naveenjoy/naveenjoy.github.io.git"     # Repo contains a simple html page
         - name: GIT_SYNC_DEST    # Destination is the shared volume
           value: "/usr/share/nginx/html" 
-        - name: GIT_SYNC_BRANCH
+        - name: GIT_SYNC_BRANCH  # Sync the master branch
           value: "master"
         - name: GIT_SYNC_REV
           value: "FETCH_HEAD"
-        - name: GIT_SYNC_WAIT
+        - name: GIT_SYNC_WAIT    # Sync every 10 seconds
           value: "10"
 
 
