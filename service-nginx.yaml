@@ -6,12 +6,11 @@ metadata:
   name: nginx-service
 spec:
   selector:
-    app: nginx      # Pod's label
+    app: nginx      # Pod's label targeted by this service
     tier: frontend
   ports:
     - protocol: TCP
-      port: 80
-      # targetPort can be a string, referring to the name of a port in the backend Pods
+      port: 80        # Incoming port
       targetPort: 80  # Port exposed by the pod.
  # For services of type=NodePort, the Kubernetes master will allocate a port 
  # from 30000-32767 (default), and each Node will proxy 
