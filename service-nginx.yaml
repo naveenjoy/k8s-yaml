@@ -9,7 +9,8 @@ spec:
     app: nginx      # Pod's label targeted by this service
     tier: frontend
   ports:
-    - protocol: TCP
+    - name: http
+      protocol: TCP
       port: 80        # Incoming port
       targetPort: 80  # Port exposed by the pod.
  # For services of type=NodePort, the Kubernetes master will allocate a port 
