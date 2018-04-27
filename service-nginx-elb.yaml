@@ -3,6 +3,8 @@ apiVersion: v1
 metadata:
   name: nginx-service
   annotations: {}
+  labels:
+    app: nginx
 spec:
   selector:
     app: nginx
