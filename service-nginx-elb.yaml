@@ -1,9 +1,10 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: my-nginx-service
+  name: nginx-service
 spec:
   selector:
+    app: nginx
     tier: frontend
   ports:
     - protocol: TCP
@@ -11,6 +12,6 @@ spec:
       targetPort: 80
   # Creates an AWS ELB
   type: LoadBalancer
-  # For security, we will configure the AWS ELB to permit only the below CIDR ranges
-  loadBalancerSourceRanges:
-    - 10.0.0.0/8   # Cluster Internal IPs
+  # For security, you can uncomment the below lines to permit only certain source CIDR ranges
+  # loadBalancerSourceRanges:
+  #  - 10.0.0.0/8
