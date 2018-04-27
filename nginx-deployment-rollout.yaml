@@ -31,7 +31,7 @@ spec:
           volumeMounts:
             - mountPath: /usr/share/nginx/html
               name: www-data-share
-          readOnly: true
+              readOnly: true
           readinessProbe:
             httpGet:
               path: /
