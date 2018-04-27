@@ -3,12 +3,13 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: my-nginx-service
+  name: nginx-service
 spec:
   selector:
-    tier: frontend  # Pod's label
+    app: nginx      # Pod's label
+    tier: frontend  
   ports:
-  - protocol: TCP
-    port: 80
-    # targetPort can be a string, referring to the name of a port in the backend Pods
-    targetPort: 80  # Port exposed by the pod.
+    - protocol: TCP
+      port: 80
+      # targetPort can be a string, referring to the name of a port in the backend Pods
+      targetPort: 80  # Port exposed by the pod.

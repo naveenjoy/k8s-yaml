@@ -1,4 +1,4 @@
-# Rollout a new version of Nginx in the multi-container deployment
+# Initial Deployment of a multi-container Nginx Pod with a Readiness Probe 
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -15,32 +15,33 @@ spec:
       maxUnavailable: 1
   replicas: 3
   template:
-    annotations:  # change-cause annotations are added to the template and *Not* to the deployment 
-      kubernetes.io/change-cause: "Updated Nginx to 1.11.9"  # Deployment will record this info and trigger a new rollout
     metadata:
       labels:
-        tier: frontend
         app: nginx
+        tier: frontend
     spec:
       volumes:
         - name: www-data-share
           emptyDir: {}
       containers:
         - name: nginx
-          image: nginx:1.11.9     #Update software from 1.7.9 to 1.11.9 using a RollingUpdate Strategy
+          image: nginx:1.7.9
           volumeMounts:
             - mountPath: /usr/share/nginx/html
               name: www-data-share
           readOnly: true
-          readinessProbe:
+          readinessProbe:  # Is the application ready to serve traffic?
             httpGet:
               path: /
               port: 80
-            initialDelaySeconds: 0
-            periodSeconds: 2
-            timeoutSeconds: 1
-            successThreshold: 1
-            failureThreshold: 3
+            initialDelaySeconds: 0 # Number of seconds after the container has started before the probe is initiated.
+            periodSeconds: 2    # How often, in seconds, to perform the probe. Defaults to 10 seconds. Min value is 1.
+            timeoutSeconds: 1   # Number of seconds after which the probe times out. Defaults to 1 second
+            successThreshold: 1 # Minimum consecutive successes for the probe to be considered successful after having failed
+            failureThreshold: 3 # When a Pod starts and the probe fails,
+                                # Kubernetes will try failureThreshold times before giving up
+                                # In case of readiness probe failure, the Pod will be marked Unready. 
+                                # Defaults to 3. Minimum value is 1
           imagePullPolicy: Always
           ports:
             - containerPort: 80

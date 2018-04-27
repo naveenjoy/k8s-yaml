@@ -9,7 +9,7 @@ metadata:
     description: Multiple containers in pod sharing a volume
 spec:
   volumes:                     # Define all the volumes available to your containers
-    - name: www-data-share     # Name of the AWS EBS Volume 
+    - name: www-data-share     # Name of the Volume 
       emptyDir: {}             # EmptyDir volume type is used for sharing data between containers
   containers:
     - name: nginx                # First container in the Pod
