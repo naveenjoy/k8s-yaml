@@ -2,7 +2,8 @@ kind: Service
 apiVersion: v1
 metadata:
   name: nginx-service
-  annotations: {}
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
   labels:
     app: nginx
 spec:
@@ -16,6 +17,6 @@ spec:
       targetPort: 80
   # Creates an AWS ELB
   type: LoadBalancer
-  # For security, you can uncomment the below lines to permit only certain source CIDR ranges
-  # loadBalancerSourceRanges:
-  #  - 10.0.0.0/8
+  # For security, you can permit connections only from certain source CIDR ranges
+  loadBalancerSourceRanges:
+    - 0.0.0.0/0
