@@ -2,8 +2,6 @@ kind: Service
 apiVersion: v1
 metadata:
   name: nginx-service
-  annotations:
-    service.beta.kubernetes.io/aws-load-balancer-type: "elb"
   labels:
     app: nginx
 spec:
