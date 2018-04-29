@@ -3,7 +3,7 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: nginx-service
+  name: nginx
 spec:
   selector:
     app: nginx      # Pod's label targeted by this service

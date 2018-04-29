@@ -1,7 +1,7 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: nginx-service
+  name: nginx
   labels:
     app: nginx
 spec:
