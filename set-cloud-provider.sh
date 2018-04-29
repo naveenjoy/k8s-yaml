@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# The Script Assumes that the master ID=0 and worker ID=1
+# The Script Assumes that the master has ID=0 and workers have IDs=1,2..n
 # Enable AWS cloud provider on master node(s)
 # If you have multiple masters/workers add their IDs below
 for master in 0; do
@@ -14,7 +14,7 @@ done
 
 
 # Enable AWS cloud provider on the Worker Node(s)
-for worker in 1; do
+for worker in 1 2; do
   juju ssh $worker "sudo snap set kubelet cloud-provider=aws"
   juju run --application kubernetes-worker 'service snap.kubelet.daemon restart'
   juju ssh $worker "ps -ef | grep kubelet"
