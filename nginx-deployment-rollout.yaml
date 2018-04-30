@@ -17,12 +17,12 @@ spec:
       maxUnavailable: 1
   replicas: 3
   template:
-    annotations:  # change-cause annotations are added to the template and *Not* to the deployment 
-      kubernetes.io/change-cause: "Updated Nginx to 1.11.9"  # Deployment will record this info and trigger a new rollout
     metadata:
       labels:
         tier: frontend
         app: nginx
+      annotations:  # change-cause annotations are added to the template and *Not* to the deployment 
+        kubernetes.io/change-cause: "Updated Nginx to 1.11.9"  # Deployment will record this info and trigger a new rollout
     spec:
       volumes:
         - name: www-data-share

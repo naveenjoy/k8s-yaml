@@ -1,5 +1,6 @@
 #!/bin/bash
 
+## Sets cloud-provider=aws, if it's not set by conjure-up
 # The Script Assumes that the master has ID=0 and workers have IDs=1,2..n
 # Enable AWS cloud provider on master node(s)
 # If you have multiple masters/workers add their IDs below
