@@ -21,7 +21,7 @@ spec:
       labels:
         tier: frontend
         app: nginx
-      annotations:  # change-cause annotations are added to the template and *Not* to the deployment 
+      annotations: 
         kubernetes.io/change-cause: "Updated Nginx to 1.11.9"  # Deployment will record this info and trigger a new rollout
     spec:
       volumes:

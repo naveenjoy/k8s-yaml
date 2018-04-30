@@ -1,4 +1,4 @@
-# Initial Deployment of a multi-container Nginx Pod with a Readiness Probe 
+# Initial Deployment of a multi-container Nginx 1.7.9 Pod with a Readiness Probe 
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -21,6 +21,8 @@ spec:
       labels:
         app: nginx
         tier: frontend
+      annotations:  # change-cause annotations are added to the template and *Not* to the deployment 
+        kubernetes.io/change-cause: "Nginx 1.7.9"  # Deployment will record this info
     spec:
       volumes:
         - name: www-data-share
