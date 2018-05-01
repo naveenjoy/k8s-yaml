@@ -8,7 +8,7 @@ spec:
       app: mysql
       tier: backend
   strategy:
-    type: Recreate   # roll-out new versions using a Recreate strategy
+    type: Recreate
   template:
     metadata:
       labels:
