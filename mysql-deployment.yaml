@@ -47,12 +47,12 @@ spec:
           livenessProbe:
             tcpSocket:
               port: 3306
-            initialDelaySeconds: 20
+            initialDelaySeconds: 30
             periodSeconds: 15
           readinessProbe:
             tcpSocket:
               port: 3306
-            initialDelaySeconds: 20
+            initialDelaySeconds: 30
             periodSeconds: 15
           volumeMounts:
             - name: mysql-persistent-storage

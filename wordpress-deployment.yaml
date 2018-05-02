@@ -44,13 +44,13 @@ spec:
             httpGet:
               path: /wp-login.php
               port: http
-            initialDelaySeconds: 20
+            initialDelaySeconds: 30
             periodSeconds: 15
           readinessProbe:
             httpGet:
               path: /wp-login.php
               port: http
-            initialDelaySeconds: 20
+            initialDelaySeconds: 30
             periodSeconds: 15
           volumeMounts:
             - name: wordpress-persistent-storage
