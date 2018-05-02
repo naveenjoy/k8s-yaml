@@ -12,5 +12,4 @@ spec:
       targetPort: 80
   type: LoadBalancer
   loadBalancerSourceRanges:
-    - 10.0.0.0/8   # Cluster Internal IPs
-    - 1.1.1.1/32   # Put your host's IP here
+    - 0.0.0.0/0   # Important:: Delete this service after testing or change the default password

@@ -11,7 +11,11 @@ spec:
       app: wordpress
       tier: frontend
   strategy:
-    type: Recreate
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 2
+      maxUnavailable: 1
+  replicas: 3
   template:
     metadata:
       labels:
@@ -23,7 +27,7 @@ spec:
           name: wordpress
           env:
             - name: WORDPRESS_DB_HOST
-              value: mysql-service         # Point the frontend to the backend microservice using its name
+              value: mysql         # Point the frontend to the backend microservice using its name
             - name: WORDPRESS_DB_PASSWORD
               valueFrom:
                 secretKeyRef:
@@ -38,4 +42,4 @@ spec:
       volumes:
         - name: wordpress-persistent-storage
           persistentVolumeClaim:
-            claimName: aws-claim
+            claimName: aws-claim     ### don't we want to create another claim
