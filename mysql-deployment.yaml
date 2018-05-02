@@ -19,7 +19,7 @@ spec:
         tier: backend
     spec:
       containers:
-        - image: mysql:5.7
+        - image: mysql:5.7.6
           name: mysql
           env:
             # Access the secret using a secretvolume
