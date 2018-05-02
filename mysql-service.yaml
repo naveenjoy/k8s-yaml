@@ -3,11 +3,11 @@ kind: Service
 metadata:
   name: mysql
   labels:
-    app: mysql
+    app: wordpress
     tier: backend
 spec:
   selector:
-    app: mysql
+    app: wordpress
     tier: backend
   ports:
     - name: mysql

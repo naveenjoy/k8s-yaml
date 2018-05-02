@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mysql-claim   # This claim results in an AWS SSD Persistent Disk being automatically provisioned
+  labels:
+    app: wordpress
+    tier: backend
+spec:
+  accessModes:
+    - ReadWriteOnce   #  The volume can be mounted as read-write by a single node
+  # This links this PersistentVolumeClaim Object to the AWS Storage Class
+  storageClassName: standard-aws  # This name must match the AWS Storage Class
+  resources:
+    requests:
+      storage: 2Gi   # 2GB volume is requested from AWS

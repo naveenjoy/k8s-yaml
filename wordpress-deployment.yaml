@@ -13,9 +13,9 @@ spec:
   strategy:
     type: RollingUpdate
     rollingUpdate:
-      maxSurge: 2
-      maxUnavailable: 1
-  replicas: 3
+      maxSurge: 1
+      maxUnavailable: 0
+  replicas: 1
   template:
     metadata:
       labels:
@@ -26,20 +26,20 @@ spec:
         - image: wordpress:4.8-apache
           name: wordpress
           env:
-            - name: WORDPRESS_DB_HOST
-              value: mysql         # Point the frontend to the backend microservice using its name
-            - name: WORDPRESS_DB_PASSWORD
+            - name: WORDPRESS_DATABASE_HOST
+              value: mysql         # Point the wordpress frontend to the backend mysql microservice using its name
+            - name: WORDPRESS_DATABASE_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: mysql-pass
                   key: password
           ports:
-            - containerPort: 80
-              name: wordpress
+            - name: wordpress
+              containerPort: 80
           volumeMounts:
             - name: wordpress-persistent-storage
               mountPath: /var/www/html
       volumes:
         - name: wordpress-persistent-storage
           persistentVolumeClaim:
-            claimName: aws-claim     ### don't we want to create another claim
+            claimName: wordpress-claim
