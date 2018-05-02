@@ -26,16 +26,32 @@ spec:
         - image: wordpress:4.8-apache
           name: wordpress
           env:
-            - name: WORDPRESS_DATABASE_HOST
+            - name: WORDPRESS_DB_HOST
               value: mysql         # Point the wordpress frontend to the backend mysql microservice using its name
-            - name: WORDPRESS_DATABASE_PASSWORD
+            - name: WORDPRESS_DB_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: mysql-pass
+                  name: mysql-userpass
                   key: password
+            - name: WORDPRESS_DB_USER
+              value: wordpress
+            - name: WORDPRESS_DB_NAME
+              value: wordpress
           ports:
-            - name: wordpress
+            - name: http
               containerPort: 80
+          livenessProbe:
+            httpGet:
+              path: /wp-login.php
+              port: http
+            initialDelaySeconds: 20
+            periodSeconds: 15
+          readinessProbe:
+            httpGet:
+              path: /wp-login.php
+              port: http
+            initialDelaySeconds: 20
+            periodSeconds: 15
           volumeMounts:
             - name: wordpress-persistent-storage
               mountPath: /var/www/html
