@@ -1,13 +1,10 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: mysql-claim   # This claim results in an AWS EBS SSD Persistent Disk being automatically provisioned
-  labels:
-    app: wordpress
-    tier: backend
+  name: aws-ebs-claim   # This claim results in an AWS SSD Persistent Disk being automatically provisioned
 spec:
   accessModes:
-    - ReadWriteOnce   #  The volume can be mounted as read-write by a single node
+    - ReadWriteOnce   #  The volume can be mounted as read-write by a single node (The only option supported in AWS EBS)
   # This links this PersistentVolumeClaim Object to the AWS Storage Class
   storageClassName: standard-aws-ebs  # This name must match the AWS Storage Class
   resources:

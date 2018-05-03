@@ -7,9 +7,9 @@ metadata:
     tier: frontend
 spec:
   accessModes:
-    - ReadWriteOnce   #  The volume can be mounted as read-write by a single node (The only option supported in AWS)
+    - ReadWriteOnce   #  The volume can be mounted as read-write by a single node (The only option supported in AWS EBS)
   # This links this PersistentVolumeClaim Object to the AWS Storage Class
-  storageClassName: standard-aws  # This name must match the AWS Storage Class
+  storageClassName: standard-aws-ebs  # This name must match the AWS Storage Class
   resources:
     requests:
       storage: 2Gi   # 2GB volume is requested from AWS

@@ -1,9 +1,9 @@
 apiVersion: storage.k8s.io/v1
 kind: StorageClass
 metadata:
-  name: standard-aws   # Users request a particular Storage class - So the name of the StorageClass is significant
+  name: standard-aws-ebs   # Users request a particular Storage class - So the name of the StorageClass is significant
 provisioner: kubernetes.io/aws-ebs  # Provisioner determines the volume plugin used for provisioning PVs
-# A general purpose SSD backed Volume Type in AWS
+# A general purpose SSD backed Volume Type in AWS EBS
 # Refer: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSVolumeTypes.html
 parameters:
   type: gp2
