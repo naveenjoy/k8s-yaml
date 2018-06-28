@@ -1,4 +1,1 @@
-deploy/*.yaml
-services/*.yaml
-wp/*.yaml
 *.ignore
