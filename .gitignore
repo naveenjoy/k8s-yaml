@@ -1,4 +1,4 @@
+deploy/
+services/
+wp/
 *.ignore
-**/deploy
-**/services
-**/wp
