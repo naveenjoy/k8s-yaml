@@ -1,4 +1,4 @@
-deploy/
-services/
-wp/
+deploy/*.yaml
+services/*.yaml
+wp/*.yaml
 *.ignore
