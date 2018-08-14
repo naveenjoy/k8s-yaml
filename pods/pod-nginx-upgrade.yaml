@@ -7,6 +7,6 @@ metadata:
 spec:  
   containers:
     - name: nginx       
-      image: nginx:1.13.8   	# Update the nginx container from Ver. 1.7.9 to 1.13.8
+      image: nginx:latest   	# Update the nginx container from Ver. 1.7.9 to the latest
       ports:
         - containerPort: 80
