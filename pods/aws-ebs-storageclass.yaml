@@ -7,3 +7,5 @@ provisioner: kubernetes.io/aws-ebs  # Provisioner determines the volume plugin u
 # Refer: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSVolumeTypes.html
 parameters:
   type: gp2
+reclaimPolicy: Delete   # Set to either Delete (default) or Retain.
+                        # Persisent Volumes created using this storage class will have this reclaim policy 
