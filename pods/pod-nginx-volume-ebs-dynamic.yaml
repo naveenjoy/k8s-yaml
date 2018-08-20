@@ -11,7 +11,7 @@ spec:
   volumes:
     - name: aws-ebs                   # Name of the AWS EBS Volume 
       persistentVolumeClaim:          # Pods access dynamic AWS storage by using the claim as a volume
-        claimName: aws-ebs-claim-1    # Must match the name of the AWS Persistent Volume Claim we created
+        claimName: aws-ebs-claim      # Must match the name of the AWS Persistent Volume Claim we created
   containers:
     - name: nginx
       image: nginx:1.13.8
