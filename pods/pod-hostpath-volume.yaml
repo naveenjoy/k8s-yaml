@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: hostpath-test
+  annotations:
+    description: A pod with a hostPath volume type
+spec:
+  volumes:           
+    - name: docker-sock  
+      hostPath:
+        path: /var/run/docker.sock    # A file or directory location on the node that you want to mount into the Pod
+        type: Socket                  # A UNIX socket must exist at the given path            
+  containers:
+    - name: ubuntu
+      image: ubuntu:16.04
+      command: ["/bin/bash"]
+      volumeMounts:                         
+        - mountPath: /var/run/docker.sock     # The mount path within the container
+          name: docker-sock                   # Name must match the hostPath volume name
+
