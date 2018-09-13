@@ -12,8 +12,9 @@ spec:
         type: Socket                  # A UNIX socket must exist at the given path            
   containers:
     - name: ubuntu
-      image: ubuntu:16.04
-      command: ["/bin/bash"]
+      image: ubuntu:16.04                        # Run the ubuntu 16.04
+      command: [ "/bin/bash", "-c", "--" ]       # You need to run some task inside a container to keep it running
+      args: [ "while true; do sleep 10; done;" ] # Our simple program just sleeps inside an infinite loop
       volumeMounts:                         
         - mountPath: /var/run/docker.sock     # The mount path within the container
           name: docker-sock                   # Name must match the hostPath volume name
