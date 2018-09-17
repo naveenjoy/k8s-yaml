@@ -6,9 +6,9 @@ metadata:
     tier: frontend      
     app:  nginx          
   annotations:
-    description: A Replicaset with a HPA
+    description: A Replicaset targeted by a Horizontal Pod Autoscaler (HPA)
 spec:                    
-                         # Do not specify a replica count because it is controlled by the HPA
+                         # Do not specify a replica count because it is managed by the autoscaler
   selector:              
     matchLabels:         
       tier: frontend
@@ -28,7 +28,7 @@ spec:
           image: nginx:1.13.8
           resources:   
             requests:  
-              cpu: "50m"      # HPA requires a resource request such as the CPU or Memory
+              cpu: "20m"      # HPA requires a resource request such as the CPU or Memory
           volumeMounts:
             - mountPath: /usr/share/nginx/html      
               name: www-data-share                  
