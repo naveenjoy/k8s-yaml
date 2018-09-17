@@ -1,0 +1,54 @@
+apiVersion: apps/v1      
+kind: ReplicaSet
+metadata:
+  name: nginx           
+  labels:
+    tier: frontend      
+    app:  nginx          
+  annotations:
+    description: A Replicaset with a HPA
+spec:                    
+                         # Do not specify a replica count because it is controlled by the HPA
+  selector:              
+    matchLabels:         
+      tier: frontend
+      app: nginx
+            
+  template:              
+    metadata:            
+      labels:
+        tier: frontend   
+        app:  nginx      
+    spec:                
+      volumes:          
+        - name: www-data-share     
+          emptyDir: {}
+      containers:
+        - name: nginx                
+          image: nginx:1.13.8
+          resources:   
+            requests:  
+              cpu: "50m"      # HPA requires a resource request such as the CPU or Memory
+          volumeMounts:
+            - mountPath: /usr/share/nginx/html      
+              name: www-data-share                  
+              readOnly: true                        
+          ports:
+            - containerPort: 80
+        
+        - name: git-sync
+          image: openweb/git-sync:0.0.1
+          volumeMounts:
+            - mountPath: /usr/share/nginx/html    
+              name: www-data-share                
+          env:                       
+            - name: GIT_SYNC_REPO    
+              value: "https://github.com/naveenjoy/naveenjoy.github.io.git"     
+            - name: GIT_SYNC_DEST    
+              value: "/usr/share/nginx/html" 
+            - name: GIT_SYNC_BRANCH  
+              value: "master"
+            - name: GIT_SYNC_REV
+              value: "FETCH_HEAD"
+            - name: GIT_SYNC_WAIT    
+              value: "10"
