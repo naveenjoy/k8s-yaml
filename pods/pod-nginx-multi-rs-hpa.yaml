@@ -28,7 +28,7 @@ spec:
           image: nginx:1.13.8
           resources:   
             requests:  
-              cpu: "20m"      # HPA requires a resource request such as the CPU or Memory
+              cpu: "10m"      # HPA requires a resource request such as the CPU or Memory
           volumeMounts:
             - mountPath: /usr/share/nginx/html      
               name: www-data-share                  
@@ -38,6 +38,9 @@ spec:
         
         - name: git-sync
           image: openweb/git-sync:0.0.1
+          resources:   
+            requests:  
+              cpu: "10m" 
           volumeMounts:
             - mountPath: /usr/share/nginx/html    
               name: www-data-share                
