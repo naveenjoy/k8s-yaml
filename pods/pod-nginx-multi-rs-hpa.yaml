@@ -50,7 +50,7 @@ spec:
             - name: GIT_SYNC_DEST    
               value: "/usr/share/nginx/html" 
             - name: GIT_SYNC_BRANCH  
-              value: "master"
+              value: "hpa"
             - name: GIT_SYNC_REV
               value: "FETCH_HEAD"
             - name: GIT_SYNC_WAIT    
