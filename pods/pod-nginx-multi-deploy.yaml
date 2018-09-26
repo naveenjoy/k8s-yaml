@@ -1,0 +1,65 @@
+apiVersion: apps/v1      # for k8s versions before 1.9.0 use apps/v1beta2 and before 1.8.0 use extensions/v1beta1
+kind: Deployment
+metadata:
+  name: nginx            # A unique name for the Deployment in the current namespace
+  labels:
+    tier: frontend       # Labels assigned to the Deployment object. Typically it is set to the same
+    app:  nginx          # values as the Pod's label (i.e. the .spec.template.metadata.labels)
+  annotations:
+    description: A stateless Nginx Pod deployment
+spec:                    # A Deployment also has a spec section
+  replicas: 4            # The desired number of Pods
+  strategy:
+    type: RollingUpdate   # The Deployment will update Pods in a rolling update fashion
+    rollingUpdate:
+      maxUnavailable: 25%  # The maximum number of Pods that can be unavailable during the update process
+      maxSurge: 25%        # The maximum number of Pods that can be created over the desired number of Pods
+  minReadySeconds: 0             # min number of seconds a newly created Pod waits after passing readiness checks                  
+  progressDeadlineSeconds: 600   # Terminates a stalled deployment that doesn't progress after 10 min.
+
+  selector:              # The sepc.selector is used by this Deployment to identify the Pods its managing
+    matchLabels:         # The spec.selector.matchLabels must match one of the labels in spec.template.metadata.labels
+      tier: frontend
+      app: nginx
+            
+  template:              # This is the Pod template. The schema is exactly the same as the Pod without apiVersion or kind keys
+    metadata:            # Do not set a Pod name as it will be auto-assigned to each pod replica.
+      labels:
+        tier: frontend   # Labels must be assigned to the Pod controlled by a Deployment.
+        app:  nginx      # Make sure to not overlap these labels with any other Pods or controllers
+    spec:                # Notice that the pod spec is now nested inside the template
+      volumes:          
+        - name: www-data-share     
+          emptyDir: {}
+      containers:
+        - name: nginx                
+          image: nginx:1.13.8
+          volumeMounts:
+            - mountPath: /usr/share/nginx/html      
+              name: www-data-share                  
+              readOnly: true
+          readinessProbe:     # A Readiness Probe enables a container to report back to the Deployment that it's ready.
+            httpGet:          # So, during a rollingUpdate, the deployment controller can correctly detect a bad rollout.
+              path: /
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 10                        
+          ports:
+            - containerPort: 80
+        
+        - name: git-sync
+          image: openweb/git-sync:0.0.1
+          volumeMounts:
+            - mountPath: /usr/share/nginx/html    
+              name: www-data-share                
+          env:                       
+            - name: GIT_SYNC_REPO    
+              value: "https://github.com/naveenjoy/naveenjoy.github.io.git"     
+            - name: GIT_SYNC_DEST    
+              value: "/usr/share/nginx/html" 
+            - name: GIT_SYNC_BRANCH  
+              value: "master"
+            - name: GIT_SYNC_REV
+              value: "FETCH_HEAD"
+            - name: GIT_SYNC_WAIT    
+              value: "10"
