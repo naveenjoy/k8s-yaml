@@ -1,0 +1,275 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: ingress-virtual-host
+spec:
+  rules:
+    - host: host1.foo.com
+      http:
+        paths:
+          - backend:
+              serviceName: foo
+              servicePort: 80
+    - host: host1.bar.com
+      http:
+        paths:
+          - backend:
+              serviceName: bar
+              servicePort: 80
+    - http:
+        paths:
+          - backend:
+              serviceName: default
+              servicePort: 80
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: foo
+  labels:
+    name: foo
+spec:
+  ports:
+    - port: 80
+      targetPort: 80   
+  selector:            
+    name: foo
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: bar
+  labels:
+    name: bar
+spec:
+  ports:
+    - port: 80
+      targetPort: 80
+  selector:            
+    name: bar
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: default
+  labels:
+    name: default
+spec:
+  ports:
+    - port: 80
+      targetPort: 80
+  selector:            
+    name: default
+
+---
+apiVersion: apps/v1      
+kind: Deployment
+metadata:
+  name: foo  
+  labels:
+    tier: frontend       
+    app:  nginx
+    name: foo
+  annotations:
+    description: A stateless Nginx Pod deployment for the Foo service
+spec:                    
+  replicas: 2            
+  strategy:
+    type: RollingUpdate   
+    rollingUpdate:
+      maxUnavailable: 25%  
+      maxSurge: 25%        
+  minReadySeconds: 0                               
+  progressDeadlineSeconds: 600   
+
+  selector:              # The spec.selector is used by this Deployment to identify the Pods its managing
+    matchLabels:         # The spec.selector.matchLabels must match one of the labels in spec.template.metadata.labels
+      tier: frontend
+      app: nginx
+      name: foo
+            
+  template:              
+    metadata:            
+      labels:
+        tier: frontend   # Labels must be assigned to the Pods controlled by a Deployment and targeted by a service.
+        app:  nginx      
+        name: foo
+    spec:                
+      volumes:          
+        - name: www-data-share     
+          emptyDir: {}
+      containers:
+        - name: nginx                
+          image: nginx:1.13.8
+          volumeMounts:
+            - mountPath: /usr/share/nginx/html      
+              name: www-data-share                  
+              readOnly: true
+          readinessProbe:
+            httpGet:          
+              path: /
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 10                        
+          ports:
+            - containerPort: 80
+        
+        - name: git-sync
+          image: openweb/git-sync:0.0.1
+          volumeMounts:
+            - mountPath: /usr/share/nginx/html    
+              name: www-data-share                
+          env:                       
+            - name: GIT_SYNC_REPO    
+              value: "https://github.com/naveenjoy/naveenjoy.github.io.git"     
+            - name: GIT_SYNC_DEST    
+              value: "/usr/share/nginx/html" 
+            - name: GIT_SYNC_BRANCH  
+              value: "foo"
+            - name: GIT_SYNC_REV
+              value: "FETCH_HEAD"
+            - name: GIT_SYNC_WAIT    
+              value: "10"
+
+---
+apiVersion: apps/v1      
+kind: Deployment
+metadata:
+  name: bar           
+  labels:
+    tier: frontend       
+    app:  nginx
+    name: bar    
+  annotations:
+    description: A stateless Nginx Pod deployment for the Bar service
+spec:                    
+  replicas: 2            
+  strategy:
+    type: RollingUpdate   
+    rollingUpdate:
+      maxUnavailable: 25%  
+      maxSurge: 25%        
+  minReadySeconds: 0                               
+  progressDeadlineSeconds: 600   
+
+  selector:              # The spec.selector is used by this Deployment to identify the Pods its managing
+    matchLabels:         # The spec.selector.matchLabels must match one of the labels in spec.template.metadata.labels
+      tier: frontend
+      app: nginx
+      name: bar
+            
+  template:              
+    metadata:            
+      labels:
+        tier: frontend   # Labels must be assigned to the Pods controlled by a Deployment and targeted by a service.
+        app:  nginx      
+        name: bar
+    spec:                
+      volumes:          
+        - name: www-data-share     
+          emptyDir: {}
+      containers:
+        - name: nginx                
+          image: nginx:1.13.8
+          volumeMounts:
+            - mountPath: /usr/share/nginx/html      
+              name: www-data-share                  
+              readOnly: true
+          readinessProbe:
+            httpGet:          
+              path: /
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 10                        
+          ports:
+            - containerPort: 80
+        
+        - name: git-sync
+          image: openweb/git-sync:0.0.1
+          volumeMounts:
+            - mountPath: /usr/share/nginx/html    
+              name: www-data-share                
+          env:                       
+            - name: GIT_SYNC_REPO    
+              value: "https://github.com/naveenjoy/naveenjoy.github.io.git"     
+            - name: GIT_SYNC_DEST    
+              value: "/usr/share/nginx/html" 
+            - name: GIT_SYNC_BRANCH  
+              value: "bar"
+            - name: GIT_SYNC_REV
+              value: "FETCH_HEAD"
+            - name: GIT_SYNC_WAIT    
+              value: "10"
+
+---
+apiVersion: apps/v1      
+kind: Deployment
+metadata:
+  name: default
+  labels:
+    tier: frontend       
+    app:  nginx
+    name: default  
+  annotations:
+    description: A stateless Nginx Pod deployment for the Default service
+spec:                    
+  replicas: 2            
+  strategy:
+    type: RollingUpdate   
+    rollingUpdate:
+      maxUnavailable: 25%  
+      maxSurge: 25%        
+  minReadySeconds: 0                               
+  progressDeadlineSeconds: 600   
+
+  selector:              # The spec.selector is used by this Deployment to identify the Pods its managing
+    matchLabels:         # The spec.selector.matchLabels must match one of the labels in spec.template.metadata.labels
+      tier: frontend
+      app: nginx
+      name: default
+            
+  template:              
+    metadata:            
+      labels:
+        tier: frontend   # Labels must be assigned to the Pods controlled by a Deployment and targeted by a service.
+        app:  nginx      
+        name: default
+    spec:
+      volumes:          
+        - name: www-data-share     
+          emptyDir: {}
+      containers:
+        - name: nginx                
+          image: nginx:1.13.8
+          volumeMounts:
+            - mountPath: /usr/share/nginx/html      
+              name: www-data-share                  
+              readOnly: true
+          readinessProbe:
+            httpGet:          
+              path: /
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 10                        
+          ports:
+            - containerPort: 80
+        
+        - name: git-sync
+          image: openweb/git-sync:0.0.1
+          volumeMounts:
+            - mountPath: /usr/share/nginx/html    
+              name: www-data-share                
+          env:                       
+            - name: GIT_SYNC_REPO    
+              value: "https://github.com/naveenjoy/naveenjoy.github.io.git"     
+            - name: GIT_SYNC_DEST    
+              value: "/usr/share/nginx/html" 
+            - name: GIT_SYNC_BRANCH  
+              value: "default"
+            - name: GIT_SYNC_REV
+              value: "FETCH_HEAD"
+            - name: GIT_SYNC_WAIT    
+              value: "10"
