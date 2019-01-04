@@ -9,9 +9,9 @@ metadata:
     app: nginx
 spec:
   ports:
-    - port: 80
-      targetPort: 80   # By default the targetPort will be set to the same value as the port field. It's optional here.
-  selector:            # The label selector (i.e. the spec.selector) is used by the Service to target the backend pods
+    - port: 443        # Incoming port on the AWS ELB
+      targetPort: 80   # targetPort on the backend pods
+  selector:            
     app: nginx
     tier: frontend
   type: LoadBalancer   # Provision a cloud LB by setting the spec.type to LoadBalancer
