@@ -4,7 +4,7 @@ metadata:
   name: nginx
   labels:
     app: nginx
-spec:
+spec:                  # ClusterIP is the default service type, which is cluster internal only
   ports:
     - port: 80
       targetPort: 80   # By default the targetPort will be set to the same value as the port field. It's optional here.

@@ -1,13 +1,39 @@
+# Create AWS ELB for the nginx ingress
+# Specify the namespace in which the nginx ingress container is running
+# Specify the correct selectors for the nginx ingress pod 
+apiVersion: v1
+kind: Service
+metadata:
+  name: elb-nginx-ingress
+  namespace: ingress-nginx-kubernetes-worker
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-ssl-cert: <Paste Your Cert's ARN here>
+    service.beta.kubernetes.io/aws-load-balancer-backend-protocol: http
+    service.beta.kubernetes.io/aws-load-balancer-ssl-ports: https
+  labels:
+    app: elb-nginx-ingress
+spec:
+  ports:
+    - port: 443          # Incoming port on the AWS ELB
+      targetPort: 8080   # nginx-ingress worker pod listens on port 8080
+  selector:
+    app.kubernetes.io/name: default-http-backend-kubernetes-worker    # Select the Nginx ingress pods     
+    app.kubernetes.io/part-of: ingress-nginx-kubernetes-worker         
+  type: LoadBalancer   
+
+---
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: ingress-virtual-host
+  labels:
+    app: nginx-ingress
 spec:
   rules:
     - host: host1.foo.com
       http:
         paths:
-          - path: /
+          - path: / 
             backend:
               serviceName: foo
               servicePort: 80
