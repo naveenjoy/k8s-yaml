@@ -21,8 +21,8 @@ spec:
         ports:
         - name: http
           containerPort: 80
-        #- name: https         # We will place the Ingress behind the AWS ELB, which terminates TLS
-        #  containerPort: 443
+        - name: https
+          containerPort: 443
         env:
         - name: POD_NAMESPACE
           valueFrom:
