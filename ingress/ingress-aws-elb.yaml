@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-ingress
+  namespace: nginx-ingress
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-ssl-cert: <Paste Your Cert's ARN here>
+    service.beta.kubernetes.io/aws-load-balancer-backend-protocol: http
+    service.beta.kubernetes.io/aws-load-balancer-ssl-ports: https
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 443          # Terminate SSL at the ELB and send http traffic to the ingress
+      targetPort: 80
+      protocol: TCP
+      name: https
+  selector:
+    app: nginx-ingress
