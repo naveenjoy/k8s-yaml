@@ -10,11 +10,11 @@ spec:
     - host: cafe.example.com
       http:
         paths:
-          - path: /tea/
+          - path: /tea
             backend:
               serviceName: tea
               servicePort: 80
-          - path: /coffee/
+          - path: /coffee
             backend:
               serviceName: coffee
               servicePort: 80
@@ -60,7 +60,7 @@ metadata:
   annotations:
     description: A stateless Nginx Pod deployment for the Tea service
 spec:
-  replicas: 2
+  replicas: 1
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -94,7 +94,7 @@ spec:
               readOnly: true
           readinessProbe:
             httpGet:
-              path: /
+              path: /tea
               port: 80
             initialDelaySeconds: 5
             periodSeconds: 10
@@ -130,7 +130,7 @@ metadata:
   annotations:
     description: A stateless Nginx Pod deployment for the Coffee service
 spec:
-  replicas: 2
+  replicas: 1
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -164,7 +164,7 @@ spec:
               readOnly: true
           readinessProbe:
             httpGet:
-              path: /
+              path: /coffee
               port: 80
             initialDelaySeconds: 5
             periodSeconds: 10
