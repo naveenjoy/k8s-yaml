@@ -4,6 +4,7 @@ metadata:
   name: cafe-ingress
   annotations:
     kubernetes.io/ingress.class: "nginx-ingress"   # Using this annotation you can select the ingress controller
+    nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   rules:
     - host: cafe.example.com
