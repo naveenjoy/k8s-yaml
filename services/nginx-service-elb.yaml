@@ -5,14 +5,15 @@ metadata:
   annotations:
     service.beta.kubernetes.io/aws-load-balancer-ssl-cert: "<Paste Your Cert's ARN here>"
     service.beta.kubernetes.io/aws-load-balancer-backend-protocol: http
-    service.beta.kubernetes.io/aws-load-balancer-ssl-ports: 443
-    service.beta.kubernetes.io/aws-load-balancer-ssl-negotiation-policy: "ELBSecurityPolicy-2016-08"
+    service.beta.kubernetes.io/aws-load-balancer-ssl-ports: https
   labels:
     app: nginx
 spec:
   ports:
     - port: 443        # Incoming port on the AWS ELB
       targetPort: 80   # targetPort on the backend pods
+      protocol: TCP
+      name: https
   selector:
     app: nginx
     tier: frontend
